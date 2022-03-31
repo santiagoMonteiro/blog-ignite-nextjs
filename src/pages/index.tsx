@@ -1,4 +1,5 @@
-import Head from "next/head";
+import Head from 'next/head';
+import Link from 'next/link';
 import { GetStaticProps } from 'next';
 
 import Prismic from '@prismicio/client';
@@ -6,6 +7,8 @@ import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
+
+import { FiUser, FiCalendar } from 'react-icons/fi';
 
 interface Post {
   uid?: string;
@@ -32,8 +35,27 @@ export default function Home({ postsPagination }: HomeProps) {
       <Head>
         <title>Home | Spacetraveling</title>
       </Head>
-      
-      <h1>Hello World!</h1>
+
+      <main className={styles.container}>
+        <div className={styles.posts}>
+          <Link href="#">
+            <a>
+              <strong className={styles.title}>Você sabe o que é React?</strong>
+              <p className={styles.description}>
+                Descubra uma das tecnologias mais requisitadas da atualidade
+              </p>
+              <div className={styles.infoContainer}>
+                <time className={commonStyles.verticallyAlligned}>
+                  <FiCalendar /> 15 Mar 2021
+                </time>
+                <span className={commonStyles.verticallyAlligned}>
+                  <FiUser /> Santiago Monteiro
+                </span>
+              </div>
+            </a>
+          </Link>
+        </div>
+      </main>
     </>
   );
 }
