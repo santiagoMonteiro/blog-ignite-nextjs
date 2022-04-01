@@ -9,6 +9,8 @@ import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 
 import { FiUser, FiCalendar } from 'react-icons/fi';
+import { useState } from 'react';
+import { RichText } from 'prismic-dom';
 
 interface Post {
   uid?: string;
@@ -30,7 +32,24 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps) {
-  function loadMorePosts() {}
+  const [posts, setPosts] = useState<Post[]>(postsPagination.results);
+
+  const [pagination, setPagination] = useState<String | null>(
+    postsPagination.next_page
+  );
+
+  function loadMorePosts() {
+    if (pagination) {
+      fetch(`${pagination}`)
+        .then(response => response.json())
+        .then(data => {
+          setPosts([...posts, ...data.results]);
+          setPagination(data.next_page);
+        });
+    }
+    console.log(posts);
+    console.log(pagination);
+  }
 
   return (
     <>
@@ -40,40 +59,33 @@ export default function Home({ postsPagination }: HomeProps) {
 
       <main className={styles.container}>
         <div className={styles.posts}>
-          {/* <Link href="#">
-            <a>
-              <strong className={styles.title}>Você sabe o que é React?</strong>
-              <p className={styles.description}>
-                Descubra uma das tecnologias mais requisitadas da atualidade
-              </p>
-              <div className={commonStyles.infoContainer}>
-                <time className={commonStyles.verticallyAlligned}>
-                  <FiCalendar className={commonStyles.icon} /> 15 Mar 2021
-                </time>
-                <span className={commonStyles.verticallyAlligned}>
-                  <FiUser className={commonStyles.icon} /> Santiago Monteiro
-                </span>
-              </div>
-            </a>
-          </Link>
-          <Link href="#">
-            <a>
-              <strong className={styles.title}>Você sabe o que é React?</strong>
-              <p className={styles.description}>
-                Descubra uma das tecnologias mais requisitadas da atualidade
-              </p>
-              <div className={commonStyles.infoContainer}>
-                <time className={commonStyles.verticallyAlligned}>
-                  <FiCalendar className={commonStyles.icon} /> 15 Mar 2021
-                </time>
-                <span className={commonStyles.verticallyAlligned}>
-                  <FiUser className={commonStyles.icon} /> Santiago Monteiro
-                </span>
-              </div>
-            </a>
-          </Link> */}
-          <button onClick={postsPagination.next_page && loadMorePosts}>
-            carregar mais posts
+          {posts.map(post => {
+            return (
+              <Link href={`${post.uid}`}>
+                <a key={post.uid}>
+                  <strong className={styles.title}>{post.data.title}</strong>
+                  <p className={styles.description}>{post.data.subtitle}</p>
+                  <div className={commonStyles.infoContainer}>
+                    <time className={commonStyles.verticallyAlligned}>
+                      <FiCalendar className={commonStyles.icon} />
+                      {post.first_publication_date}
+                    </time>
+                    <span className={commonStyles.verticallyAlligned}>
+                      <FiUser className={commonStyles.icon} />
+                      {post.data.author}
+                    </span>
+                  </div>
+                </a>
+              </Link>
+            );
+          })}
+          <button
+            className={`${pagination ? styles.active : styles.hidden} ${
+              styles.loadButton
+            }`}
+            onClick={() => loadMorePosts()}
+          >
+            Carregar mais posts
           </button>
         </div>
       </main>

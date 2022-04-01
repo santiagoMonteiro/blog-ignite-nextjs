@@ -22,3 +22,31 @@
   line-height: 1.325rem;
   font-size: 1.125rem;
 }
+
+.active {
+  position: static;
+  opacity: 1;
+  visibility: visible;
+}
+
+.hidden {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loadButton {
+  color: var(--highlight);
+  font-size: 1.125rem;
+  font-weight: 600;
+
+  margin-top: 4rem;
+  background: none;
+  border: none;
+
+  transition: filter 0.2s;
+
+  &:hover {
+    filter: brightness(0.8);
+  }
+}
