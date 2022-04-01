@@ -30,6 +30,8 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps) {
+  function loadMorePosts() {}
+
   return (
     <>
       <Head>
@@ -38,22 +40,41 @@ export default function Home({ postsPagination }: HomeProps) {
 
       <main className={styles.container}>
         <div className={styles.posts}>
+          {/* <Link href="#">
+            <a>
+              <strong className={styles.title}>Você sabe o que é React?</strong>
+              <p className={styles.description}>
+                Descubra uma das tecnologias mais requisitadas da atualidade
+              </p>
+              <div className={commonStyles.infoContainer}>
+                <time className={commonStyles.verticallyAlligned}>
+                  <FiCalendar className={commonStyles.icon} /> 15 Mar 2021
+                </time>
+                <span className={commonStyles.verticallyAlligned}>
+                  <FiUser className={commonStyles.icon} /> Santiago Monteiro
+                </span>
+              </div>
+            </a>
+          </Link>
           <Link href="#">
             <a>
               <strong className={styles.title}>Você sabe o que é React?</strong>
               <p className={styles.description}>
                 Descubra uma das tecnologias mais requisitadas da atualidade
               </p>
-              <div className={styles.infoContainer}>
+              <div className={commonStyles.infoContainer}>
                 <time className={commonStyles.verticallyAlligned}>
-                  <FiCalendar /> 15 Mar 2021
+                  <FiCalendar className={commonStyles.icon} /> 15 Mar 2021
                 </time>
                 <span className={commonStyles.verticallyAlligned}>
-                  <FiUser /> Santiago Monteiro
+                  <FiUser className={commonStyles.icon} /> Santiago Monteiro
                 </span>
               </div>
             </a>
-          </Link>
+          </Link> */}
+          <button onClick={postsPagination.next_page && loadMorePosts}>
+            carregar mais posts
+          </button>
         </div>
       </main>
     </>

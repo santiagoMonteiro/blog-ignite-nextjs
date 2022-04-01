@@ -5,6 +5,10 @@
 .posts {
   max-width: 624px;
   margin: 1rem auto 0;
+
+  a + a {
+    margin-top: 3rem;
+  }
 }
 
 .title {
@@ -18,15 +22,3 @@
   line-height: 1.325rem;
   font-size: 1.125rem;
 }
-
-.infoContainer {
-  margin-top: 1.6rem;
-  color: var(--info);
-  display: flex;
-}
-
-
-
-
-
-
