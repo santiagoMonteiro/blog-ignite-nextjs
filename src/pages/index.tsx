@@ -10,7 +10,9 @@ import styles from './home.module.scss';
 
 import { FiUser, FiCalendar } from 'react-icons/fi';
 import { useState } from 'react';
-import { RichText } from 'prismic-dom';
+
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 
 interface Post {
   uid?: string;
@@ -32,6 +34,12 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps) {
+  console.log(
+    format(new Date(), 'dd MMM yyyy', {
+      locale: ptBR,
+    })
+  );
+
   const [posts, setPosts] = useState<Post[]>(postsPagination.results);
 
   const [pagination, setPagination] = useState<String | null>(
@@ -47,8 +55,6 @@ export default function Home({ postsPagination }: HomeProps) {
           setPagination(data.next_page);
         });
     }
-    console.log(posts);
-    console.log(pagination);
   }
 
   return (
@@ -60,15 +66,28 @@ export default function Home({ postsPagination }: HomeProps) {
       <main className={styles.container}>
         <div className={styles.posts}>
           {posts.map(post => {
+            const formattedPublicationDate = format(
+              new Date(post.first_publication_date),
+              'dd MMM yyy',
+              {
+                locale: ptBR,
+              }
+            );
+
+            const fullyFormattedPublicationDate =
+              formattedPublicationDate.slice(0, 3) +
+              formattedPublicationDate[3].toUpperCase() +
+              formattedPublicationDate.slice(4);
+
             return (
-              <Link href={`${post.uid}`}>
-                <a key={post.uid}>
+              <Link href={`post/${post.uid}`} key={post.uid}>
+                <a>
                   <strong className={styles.title}>{post.data.title}</strong>
                   <p className={styles.description}>{post.data.subtitle}</p>
                   <div className={commonStyles.infoContainer}>
                     <time className={commonStyles.verticallyAlligned}>
                       <FiCalendar className={commonStyles.icon} />
-                      {post.first_publication_date}
+                      {fullyFormattedPublicationDate}
                     </time>
                     <span className={commonStyles.verticallyAlligned}>
                       <FiUser className={commonStyles.icon} />

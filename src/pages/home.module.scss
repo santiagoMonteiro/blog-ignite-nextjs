@@ -9,6 +9,10 @@
   a + a {
     margin-top: 3rem;
   }
+
+  a:nth-last-child(2) {
+    margin-bottom: 3rem;
+  }
 }
 
 .title {
@@ -40,7 +44,8 @@
   font-size: 1.125rem;
   font-weight: 600;
 
-  margin-top: 4rem;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
   background: none;
   border: none;
 
